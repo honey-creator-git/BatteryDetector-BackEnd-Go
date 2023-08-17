@@ -79,3 +79,26 @@ func LoginCheck(email string, password string, c context.Context) (User, error) 
 
 	return user, nil
 }
+
+func GoogleAuthCheck(email string, c context.Context) (User, error) {
+	var err error
+
+	user := User{}
+	err = userCollection.FindOne(c, bson.M{"email": email}).Decode(&user)
+	if err != nil {
+		return User{}, errors.New(BatteryDetectorResponse.EMAIL_NOT_FOUND)
+	}
+
+	return user, nil
+}
+
+func FindUserWithID(objId primitive.ObjectID, c context.Context) (User, error) {
+	var user User
+	userCollection.FindOne(c, bson.M{"id": objId}).Decode(&user)
+
+	if user.ID.Hex() == "000000000000000000000000" {
+		return User{}, errors.New(BatteryDetectorResponse.NOT_EXIST_USER)
+	}
+
+	return user, nil
+}

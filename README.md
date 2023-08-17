@@ -27,3 +27,28 @@ Response:
         },
         "status": true
     }
+
+## LogIn
+
+- Login User with Email and Password
+
+POST: /api/v1/user/signin
+Request Body: 
+    {
+        "Email": "tenochbush@gmail.com",
+        "Password": "IvanP.9899"
+    }
+Response:
+    {
+        "payload": {
+            "data": {
+                "id": "64de3de3337679ed502c0b9b",
+                "email": "tenochbush@gmail.com",
+                "firstName": "Ttenochtchi",
+                "lastName": "Bush",
+                "password": "$2a$10$A89v.aV1QxF7tYdr.b936esckG4PVS2Kzd6TNX4aEtE/Cydx0G4pW"
+            },
+            "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlbm9jaGJ1c2hAZ21haWwuY29tIiwiZXhwIjoxNjkyMjk2MzU3LCJpYXQiOjE2OTIyODkxNTcsIm5iZiI6MTY5MjI4OTE1N30.mwdbYmhyTVg7ND7LM3dbvNKce77TP5YV2d_vcBcVc1GsLYmaDiMt0OemZ6WXBiDm5Ui3sSBvMwNkHudedSZW3w"
+        },
+        "status": true
+    }

@@ -63,3 +63,35 @@ func CreateUser() gin.HandlerFunc {
 		// ctx.JSON(http.StatusOK, gin.H{"status": true, "payload": gin.H{"data": curUser}})
 	}
 }
+
+func SignInUser() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		c, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		var input BatteryDetectorRequest.LoginRequest
+		defer cancel()
+
+		if err := ctx.ShouldBindJSON(&input); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error(), "status": "JSON Binding Error."})
+			return
+		}
+
+		if validationErr := validate.Struct(&input); validationErr != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": validationErr.Error(), "status": "Error occurred in validating request body."})
+			return
+		}
+
+		user, err := models.LoginCheck(input.Email, input.Password, c)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error(), "status": "Checking login failed."})
+			return
+		}
+
+		config, _ := configs.LoadConfig(".")
+		access_token, err := utilities.CreateToken(config.AccessTokenExpiresIn, user.Email, config.AccessTokenPrivateKey)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Error occurred in generating user token.", "status": "failed"})
+			return
+		}
+		ctx.JSON(http.StatusOK, gin.H{"status": true, "payload": gin.H{"token": access_token, "data": user}})
+	}
+}

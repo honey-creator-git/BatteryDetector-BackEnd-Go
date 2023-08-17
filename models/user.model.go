@@ -2,6 +2,7 @@ package models
 
 import (
 	"battery-detector/BatteryDetectorResponse"
+	"battery-detector/utilities"
 	"context"
 	"errors"
 	"fmt"
@@ -59,4 +60,22 @@ func (newUser *User) SaveUser(c context.Context) (User, error) {
 	userCollection.FindOne(c, bson.M{"_id": mUser.InsertedID}).Decode(&curUser)
 
 	return curUser, nil
+}
+
+func LoginCheck(email string, password string, c context.Context) (User, error) {
+	var err error
+
+	user := User{}
+
+	err = userCollection.FindOne(c, bson.M{"email": email}).Decode(&user)
+	if err != nil {
+		return User{}, errors.New(BatteryDetectorResponse.EMAIL_NOT_FOUND)
+	}
+
+	err = utilities.VerifiyPassword(user.Password, password)
+	if err != nil {
+		return user, errors.New(BatteryDetectorResponse.WRONG_PASSWORD)
+	}
+
+	return user, nil
 }

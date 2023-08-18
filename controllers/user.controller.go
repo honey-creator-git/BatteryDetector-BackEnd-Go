@@ -44,6 +44,7 @@ func CreateUser() gin.HandlerFunc {
 			LastName:  input.LastName,
 			Email:     input.Email,
 			Password:  hashedPassword,
+			Role:      "User",
 		}
 
 		curUser, err := newUser.SaveUser(c)

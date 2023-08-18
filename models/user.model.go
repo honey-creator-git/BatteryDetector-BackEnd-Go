@@ -20,6 +20,7 @@ type User struct {
 	FirstName string             `json:"firstName,omitempty"`
 	LastName  string             `json:"lastName,omitempty"`
 	Password  string             `json:"password,omitempty"`
+	Role      string             `json:"role,omitempty"`
 }
 
 func validMailAddress(address string) (string, bool) {
@@ -44,7 +45,7 @@ func (newUser *User) SaveUser(c context.Context) (User, error) {
 	mUser, err := userCollection.InsertOne(c, newUser)
 	if err != nil {
 		if er, ok := err.(mongo.WriteException); ok && er.WriteErrors[0].Code == 11000 {
-			return User{}, errors.New("Email Already Exist")
+			return User{}, errors.New("email already exist")
 		}
 	}
 

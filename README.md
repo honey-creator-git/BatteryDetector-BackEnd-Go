@@ -52,3 +52,26 @@ Response:
         },
         "status": true
     }
+
+## Add Charge (Admin)
+
+- Send request to add a new charge with name, ipaddress, lat/lon
+
+POST: /api/v1/charge/add
+Request Body:
+    {
+        "Name" : "Charge - 1",
+        "IPAddress" : "192.173.62.115",
+        "LatLon" : "34:69"
+    }
+Response:
+    {
+        "payload": {
+            "id": "64dedd697e386de67518a9c4",
+            "name": "Charge - 1",
+            "ipAddress": "192.173.62.115",
+            "latlon": "34:69",
+            "users": null
+        },
+        "status": true
+    }

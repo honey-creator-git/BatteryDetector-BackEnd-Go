@@ -23,3 +23,9 @@ type GoogleAuthRequest struct {
 type SetLogoutWithID struct {
 	UserID primitive.ObjectID `json:"userId" binding:"required"`
 }
+
+type AddCharge struct {
+	Name      string `json:"name" binding:"required"`
+	IPAddress string `json:"ipAddress" binding:"required"`
+	LatLon    string `json:"latlon" binding:"required"`
+}

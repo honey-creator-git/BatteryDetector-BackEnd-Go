@@ -7,3 +7,4 @@ import (
 )
 
 var userCollection *mongo.Collection = configs.GetCollection(configs.DB, "users")
+var chargeCollection *mongo.Collection = configs.GetCollection(configs.DB, "charges")

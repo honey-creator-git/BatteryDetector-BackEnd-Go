@@ -3,6 +3,8 @@ package routes
 import (
 	"battery-detector/controllers"
 
+	"battery-detector/middlewares"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,6 +15,12 @@ func UserRoutes(router *gin.Engine) {
 	router.POST("/api/v1/set_logout", controllers.SetLogoutWithID())
 }
 
+func ChargeRoutes(router *gin.Engine) {
+	router.POST("/api/v1/charge/add", controllers.AddNewCharge())
+}
+
 func BatteryDetectorRoute(router *gin.Engine) {
 	UserRoutes(router)
+	router.Use(middlewares.DeserializeUser())
+	ChargeRoutes(router)
 }

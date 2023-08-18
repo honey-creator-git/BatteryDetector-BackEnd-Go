@@ -17,6 +17,7 @@ func UserRoutes(router *gin.Engine) {
 
 func ChargeRoutes(router *gin.Engine) {
 	router.POST("/api/v1/charge/add", controllers.AddNewCharge())
+	router.POST("/api/v1/charge/edit/:chargeId", controllers.UpdateCharge())
 }
 
 func BatteryDetectorRoute(router *gin.Engine) {

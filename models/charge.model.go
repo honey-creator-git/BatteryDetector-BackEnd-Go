@@ -1,6 +1,7 @@
 package models
 
 import (
+	"battery-detector/BatteryDetectorResponse"
 	"context"
 	"errors"
 
@@ -44,4 +45,24 @@ func (newCharge *Charge) SaveCharge(c context.Context) (Charge, error) {
 	chargeCollection.FindOne(c, bson.M{"_id": mCharge.InsertedID}).Decode(&curCharge)
 
 	return curCharge, nil
+}
+
+func GetChargeWithID(objId primitive.ObjectID, c context.Context) (Charge, error) {
+	var charge Charge
+	err := chargeCollection.FindOne(c, bson.M{"id": objId}).Decode(&charge)
+	if err != nil {
+		return Charge{}, errors.New(BatteryDetectorResponse.ERROR_GET_CHARGE_ID)
+	}
+	return charge, nil
+}
+
+func UpdateChargeWithID(objId primitive.ObjectID, update bson.M, c context.Context) (Charge, error) {
+	result, err := chargeCollection.UpdateOne(c, bson.M{"id": objId}, bson.M{"$set": update})
+	if err != nil {
+		return Charge{}, errors.New(BatteryDetectorResponse.ERROR_UPDATE_CHARGE)
+	}
+	if result.MatchedCount < 1 {
+		return Charge{}, errors.New(BatteryDetectorResponse.WARNING_UPDATE_CHARGE)
+	}
+	return Charge{}, nil
 }

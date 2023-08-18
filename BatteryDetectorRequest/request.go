@@ -1,6 +1,10 @@
 package BatteryDetectorRequest
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"battery-detector/models"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type SignUpRequest struct {
 	Email     string `json:"email" binding:"required"`
@@ -28,4 +32,11 @@ type AddCharge struct {
 	Name      string `json:"name" binding:"required"`
 	IPAddress string `json:"ipAddress" binding:"required"`
 	LatLon    string `json:"latlon" binding:"required"`
+}
+
+type UpdateCharge struct {
+	Name      string              `json:"name"`
+	IPAddress string              `json:"ipAddress"`
+	LatLon    string              `json:"latlon"`
+	Users     []models.ChargeUser `json:"users"`
 }

@@ -75,3 +75,24 @@ Response:
         },
         "status": true
     }
+
+## Edit Charge (Admin)
+
+- Send request to edit a charge with id
+
+POST: /api/v1/charge/edit/:chargeId
+Request Body:
+    {
+        "IPAddress" : "192.173.62.117",
+    }
+Response:
+    {
+        "payload": {
+            "id": "64dedd697e386de67518a9c4",
+            "name": "Charge - 1",
+            "ipAddress": "192.173.62.117",
+            "latlon": "34:69",
+            "users": null
+        },
+        "status": true
+    }
